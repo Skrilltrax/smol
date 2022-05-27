@@ -1,7 +1,8 @@
 use sqlx::types::Uuid;
 
-pub struct Url {
-    id: Uuid,
-    short_url: String,
-    long_url: String,
+#[derive(Debug)]
+pub(crate) struct Url {
+    pub(crate) id: Uuid,
+    pub(crate) short_url: String,
+    pub(crate) long_url: String,
 }

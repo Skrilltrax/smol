@@ -6,7 +6,7 @@ pub(crate) struct UrlShortener {
 impl UrlShortener {
     pub fn new(base_url: String) -> UrlShortener { UrlShortener { base_url } }
 
-    fn shorten(url: String) -> String {
+    pub fn shorten(&self, url: String) -> String {
         url
     }
 }
