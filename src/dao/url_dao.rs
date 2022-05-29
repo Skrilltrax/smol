@@ -27,4 +27,9 @@ impl<'a> UrlDao<'a> {
         query!("DELETE FROM urls WHERE id = $1", id).execute(self.pool).await?;
         Ok(find_result)
     }
+
+    pub(crate) async fn find_url(&self, short_url: String) -> Result<String> {
+        let find_result = query_as!(Url, "SELECT * FROM urls WHERE short_url = $1", short_url).fetch_one(self.pool).await?;
+        Ok(find_result.long_url)
+    }
 }
