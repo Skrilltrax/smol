@@ -11,9 +11,9 @@ fn index() -> &'static str {
     "Hello, World!"
 }
 
-#[get("/<url>")]
-async fn get_url(url: String, url_controller: &State<UrlController>) -> Option<Redirect> {
-    let long_url = url_controller.get_long_url(url).await;
+#[get("/<slug>")]
+async fn get_url(slug: String, url_controller: &State<UrlController>) -> Option<Redirect> {
+    let long_url = url_controller.get_long_url(slug).await;
 
     match long_url {
         Ok(url) => { Some(Redirect::to(url)) }

@@ -18,7 +18,7 @@ impl UrlDao {
     }
 
     pub(crate) async fn add_url(&self, url: Url) -> Result<()> {
-        query_as!(Url, "INSERT INTO urls(short_url, long_url) VALUES($1, $2)", url.short_url, url.long_url).fetch_all(&self.pool).await?;
+        query_as!(Url, "INSERT INTO urls(slug, long_url) VALUES($1, $2)", url.slug, url.long_url).fetch_all(&self.pool).await?;
         Ok(())
     }
 
@@ -28,8 +28,8 @@ impl UrlDao {
         Ok(find_result)
     }
 
-    pub(crate) async fn find_url(&self, short_url: String) -> Result<String> {
-        let find_result = query_as!(Url, "SELECT * FROM urls WHERE short_url = $1", short_url).fetch_one(&self.pool).await?;
+    pub(crate) async fn find_url(&self, slug: String) -> Result<String> {
+        let find_result = query_as!(Url, "SELECT * FROM urls WHERE slug = $1", slug).fetch_one(&self.pool).await?;
         Ok(find_result.long_url)
     }
 }

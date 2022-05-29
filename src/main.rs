@@ -16,11 +16,10 @@ use dotenv::dotenv;
 use std::env;
 use sqlx::PgPool;
 use controllers::url_controller::UrlController;
-use::rocket_db_pools::Database as RocketDatabase;
+use ::rocket_db_pools::Database as RocketDatabase;
 
 use crate::database::{Database, Smol};
 use crate::dao::url_dao::UrlDao;
-use crate::url_shortener::UrlShortener;
 
 
 #[rocket::main]
@@ -31,10 +30,9 @@ async fn main() -> Result<()> {
     let base_url = env::var("SMOL_BASE_URL").expect("You must set the SMOL_BASE_URL environment var!");
     let database_url = env::var("DATABASE_URL").expect("You must set the DATABASE_URL environment var!");
 
-    let url_shortener = UrlShortener::new(base_url);
     let pool = initialize_database(database_url).await?;
     let url_dao = UrlDao::new(pool);
-    let url_controller = UrlController::new(url_shortener, url_dao);
+    let url_controller = UrlController::new(base_url, url_dao);
 
     let _ = routes::mount_routes(rocket::build()).attach(Smol::init()).manage(url_controller).launch().await?;
 

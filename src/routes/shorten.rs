@@ -1,4 +1,3 @@
-use anyhow::Result;
 use rocket::{Route, State};
 use rocket::form::Form;
 use crate::models::url::RequestUrl;
