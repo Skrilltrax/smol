@@ -4,14 +4,14 @@ use crate::models::url::Url;
 use crate::url_shortener::UrlShortener;
 use crate::UrlDao;
 
-struct UrlController<'a> {
-    url_shortener: UrlShortener,
-    url_dao: UrlDao<'a>,
+pub(crate) struct UrlController {
+    base_url: String,
+    url_dao: UrlDao,
 }
 
-impl<'a> UrlController<'a> {
-    pub fn new(url_shortener: UrlShortener, url_dao: UrlDao<'a>) -> Self {
-        Self { url_shortener, url_dao }
+impl UrlController {
+    pub fn new(base_url: String, url_dao: UrlDao) -> Self {
+        Self { base_url, url_dao }
     }
 
     pub async fn remove_url(&self, id: Uuid) -> Result<String> {
@@ -20,7 +20,7 @@ impl<'a> UrlController<'a> {
     }
 
     pub async fn save_url(&self, long_url: String) -> Result<String> {
-        let short_url = self.url_shortener.generate_short_url();
+        let short_url = UrlShortener::generate_short_url();
         let return_url = short_url.to_owned();
         let url = Url { id: Default::default(), short_url, long_url };
         self.url_dao.add_url(url).await?;

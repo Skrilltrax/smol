@@ -1,0 +1,2 @@
+[default.databases.postgres_smol]
+url = "postgres://postgres@localhost/smoldb"

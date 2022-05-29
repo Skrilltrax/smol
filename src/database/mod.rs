@@ -2,6 +2,10 @@ use anyhow::Result;
 use sqlx::{PgPool};
 use sqlx::postgres::PgPoolOptions;
 
+#[derive(rocket_db_pools::Database)]
+#[database("postgres_smol")]
+pub (crate) struct Smol(PgPool);
+
 pub(crate) struct Database {
     url: String,
 }

@@ -1,15 +1,20 @@
-use rocket::Route;
+use anyhow::Result;
+use rocket::{Route, State};
+use rocket::form::Form;
+use crate::models::url::RequestUrl;
+use crate::UrlController;
 
 #[post("/", data = "<url>")]
-fn shorten_post(url: String) -> String {
-    url
-}
+async fn shorten_post(url: Form<RequestUrl>, url_controller: &State<UrlController>) -> String {
+    let long_url = url.url.to_owned();
 
-#[get("/<url>")]
-fn shorten_get_path(url: String) -> String {
-    url
+    let result = url_controller.save_url(long_url).await;
+    match result {
+        Ok(url) => { url }
+        Err(_) => { "Cannot save URL".to_string() }
+    }
 }
 
 pub fn routes() -> Vec<Route> {
-    return routes![shorten_post, shorten_get_path];
+    return routes![shorten_post];
 }
