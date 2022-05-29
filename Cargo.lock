@@ -1380,6 +1380,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "dotenv",
+ "rand",
  "rocket",
  "sqlx",
  "tokio",
