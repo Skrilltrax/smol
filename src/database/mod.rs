@@ -15,7 +15,7 @@ impl Database {
         Database { url: database_url }
     }
 
-    pub async fn create_database(&self) -> Result<PgPool> {
+    pub async fn create_database_connection(&self) -> Result<PgPool> {
         let pool = PgPoolOptions::new()
             .max_connections(5)
             .connect(&self.url).await?;

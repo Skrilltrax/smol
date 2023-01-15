@@ -41,6 +41,6 @@ async fn main() -> Result<()> {
 
 async fn initialize_database(database_url: String) -> Result<PgPool> {
     let database = Database::new(database_url);
-    let pool = database.create_database().await?;
+    let pool = database.create_database_connection().await?;
     Ok(pool)
 }
